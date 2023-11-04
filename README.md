@@ -33,4 +33,10 @@ Si un fichier binaire est déjà présent, il faut que le ransomware le conserve
 
 
 
+### Vérifier et utiliser la clé
+
+Question 4 :
+On verifie que la clé est bonne en dérivant cette clé avec le salt; si on retrouve le token, la clé est valide et le déchiffrement peut être
+effectué, sinon on attend une nouvelle clé.
+
 

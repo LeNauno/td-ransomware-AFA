@@ -1,7 +1,7 @@
 """
 =====================================================================================
 Ce code permet de créer des fichier .txt dans le conteneur "victime" afin de verifier
-le bon fonctionnement du chiffrage.
+le bon fonctionnement du chiffrement.
 =====================================================================================
 """
 
@@ -23,4 +23,4 @@ for i, content in enumerate(content):
     with open(file, "w") as f:
         f.write(content)
 
-    print(f"{file} generate successfully.")
+    print(f"{file} generated successfully.")

