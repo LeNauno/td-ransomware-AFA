@@ -57,8 +57,9 @@ class CNCBase(BaseHTTPRequestHandler):
                 key, value = key_value.split("=")
                 params[key] = value
             except ValueError as e:
-                print(f"'{key_value}' is not splitable")
-                print(traceback.format_exc())
+                #print(f"'{key_value}' is not splitable")
+                #print(traceback.format_exc())
+                pass
 
         return fields.path, params
 

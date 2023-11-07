@@ -47,21 +47,16 @@ class SecretManager:
 
 
     def create(self)->Tuple[bytes, bytes, bytes]:
-        # create a random key among asci alphabet
-        # EASIER TO READ IN 'key.bin' FILE
+        # create a random key among asci alphabet with secrets module # EASIER TO READ IN 'key.bin' AND TO TYPE ON KEYBOARD
         alphabet = string.ascii_letters + string.digits
         self._key = bytes(''.join(secrets.choice(alphabet) for i in range(KEY_LENGTH)), 'utf8')
-        #self._key = secrets.token_bytes(KEY_LENGTH) # Difficulties to read a pure bytes
+        #self._key = secrets.token_bytes(KEY_LENGTH)
 
         # generating random salt & key/salt derivation
         self._salt = secrets.token_bytes(SALT_LENGTH) # Salts randomly generated
         self._token = self.do_derivation(self._salt, self._key) # Generate token
         
-        print("#create:")
-        print("\t"+str(self._key))
-        print("\t"+str(self._salt))
-        print("\t"+str(self._token))
-        
+        print("#create:")        
         return (self._key, self._salt, self._token)
 
 
